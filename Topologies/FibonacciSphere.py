@@ -1,6 +1,6 @@
 import math
 from funcs.general_functions import *
-from Topologies.DelaunayTriangulation import *
+from funcs.DelaunayTriangulation import *
 
 LABEL = "Fibonacci Sphere"
 OPERATOR = "mesh.create_fibonacci_sphere"

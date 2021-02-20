@@ -1,7 +1,7 @@
-from math import pi, cos, sin
+from math import cos, sin
 from random import random
 from funcs.general_functions import *
-from Topologies.DelaunayTriangulation import *
+from funcs.DelaunayTriangulation import *
 
 LABEL = "random Sphere"
 OPERATOR = "mesh.create_random_sphere"
