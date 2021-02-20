@@ -1,0 +1,20 @@
+====> Random Sphere
+
+This is not a good topology: you need many points and the surface has areas of much higher density then others.
+This could be solved with a stronger pseudo-random generator, but it would still be bad
+
+        for i in range(res):
+        # generate random rotation angle and latitude
+        phi = random() * 2 * pi
+        latitude = radius * 2*random()-1
+        dist = (radius ** 2 - latitude ** 2) ** 0.5
+
+        addVertex([
+            cos(phi) * dist,
+            sin(phi) * dist,
+            latitude
+        ])
+
+Faces are created using Delaunay triangulation
+
+
