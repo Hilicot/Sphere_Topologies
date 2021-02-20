@@ -1,7 +1,7 @@
 import bpy
 import bmesh
 import numpy as np
-from general_functions import getCurrentBMesh
+from funcs.general_functions import getCurrentBMesh
 
 
 class IncorrectTopology(Exception):
@@ -108,10 +108,10 @@ def getOrderedVertices(v, circumcenters):
 
     return circs
 
+
 def register():
     bpy.utils.register_class(MESH_OT_TransformToVoronoi)
 
 
 def unregister():
     bpy.utils.unregister_class(MESH_OT_TransformToVoronoi)
-

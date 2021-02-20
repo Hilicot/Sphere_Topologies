@@ -1,5 +1,5 @@
 import bmesh
-from general_functions import *
+from funcs.general_functions import *
 
 LABEL = "Icosahedron"
 OPERATOR = "mesh.create_icosahedron"

@@ -1,7 +1,6 @@
 import numpy as np
 from math import floor
 from scipy.spatial import Delaunay
-from general_functions import normalize
 
 '''SOURCE: https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/'''
 

@@ -1,14 +1,15 @@
-import math
-from general_functions import *
-from DelaunayTriangulation import *
+from math import pi, cos, sin
+from random import random
+from funcs.general_functions import *
+from Topologies.DelaunayTriangulation import *
 
-LABEL = "Fibonacci Sphere"
-OPERATOR = "mesh.create_fibonacci_sphere"
+LABEL = "random Sphere"
+OPERATOR = "mesh.create_random_sphere"
 
 
 # create operator
-class MESH_OT_CreateFibonacciSphere(bpy.types.Operator):
-    """Create new Fibonacci Sphere using stereographic projection and Delauney triangulation"""
+class MESH_OT_CreateRandomSphere(bpy.types.Operator):
+    """Create new Sphere using stereographic projection and Delauney triangulation from a randomly generated Sphere"""
     bl_idname = OPERATOR
     bl_label = LABEL
 
@@ -20,7 +21,7 @@ class MESH_OT_CreateFibonacciSphere(bpy.types.Operator):
         bm = bmesh.new()
 
         # create Fibonacci Sphere
-        createFibonacciSphere(bm, props.sphere_radius, props.sphere_resolution)
+        createRandomSphere(bm, props.sphere_radius, props.sphere_resolution)
         # save original mesh
         mesh["verts"] = [v.co for v in bm.verts]
         delaunayTriangulate(mesh, bm)
@@ -33,43 +34,41 @@ class MESH_OT_CreateFibonacciSphere(bpy.types.Operator):
         setSphereUpdated(props)
         props.sphere_do_update = True
 
-        self.report({'INFO'}, "created "+LABEL)
+        self.report({'INFO'}, "created " + LABEL)
 
         return {'FINISHED'}
 
 
 def register():
-    bpy.utils.register_class(MESH_OT_CreateFibonacciSphere)
+    bpy.utils.register_class(MESH_OT_CreateRandomSphere)
 
 
 def unregister():
-    bpy.utils.unregister_class(MESH_OT_CreateFibonacciSphere)
+    bpy.utils.unregister_class(MESH_OT_CreateRandomSphere)
 
 
 ############################################
 
-def createFibonacciSphere(bm, radius, res):
+def createRandomSphere(bm, radius, res):
     """
-    create Fibonacci Sphere (vertices only)
+    create Random Sphere (vertices only)
 
     :param bm:
     :param radius:
     :param res:
     """
-    if res <= 1:
-        res = 2
-
-    phi = math.pi * (3. - math.sqrt(5.))  # golden angle (radians)
 
     for i in range(res):
-        theta = phi * i
-        y = 1 - (i / (res - 1)) * 2
-        dist_y = math.sqrt(1 - y * y)
-        x = math.cos(theta) * dist_y
-        z = math.sin(theta) * dist_y
-        coords = np.array([x, y, z])
+        # generate random rotation angle and latitude
+        phi = random() * 2 * pi
+        latitude = radius * (2*random()-1)
+        dist = (radius ** 2 - latitude ** 2) ** 0.5
 
-        bm.verts.new(coords * radius)
+        bm.verts.new([
+            cos(phi) * dist,
+            sin(phi) * dist,
+            latitude
+        ])
         bm.verts.ensure_lookup_table()
 
 
@@ -86,7 +85,7 @@ def updateSphereResolution(mesh):
     radius = mytool.sphere_radius
     res = mytool.sphere_resolution
 
-    createFibonacciSphere(bm, radius, res)
+    createRandomSphere(bm, radius, res)
     mesh["verts"] = [v.co for v in bm.verts]
     delaunayTriangulate(mesh, bm)
 
@@ -114,3 +113,5 @@ def morphSphere(mesh):
     bm.to_mesh(mesh)
     bm.free()
     setSphereUpdated(mytool)
+
+

@@ -1,10 +1,7 @@
 import bpy
 import main
-import RadialSphere
-import RandomSphere
-import randomColors
-import FibonacciSphere
-import VoronoiRegions
+from Topologies import RandomSphere, FibonacciSphere, RadialSphere
+from funcs import randomColors, VoronoiRegions
 
 from bpy.props import (
     IntProperty,

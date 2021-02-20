@@ -1,7 +1,7 @@
 import bmesh
 from math import sin, cos, pi
 import numpy as np
-from general_functions import *
+from funcs.general_functions import *
 
 LABEL = "Radial Sphere"
 OPERATOR = "mesh.create_radial_sphere"

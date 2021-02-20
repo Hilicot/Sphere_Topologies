@@ -8,12 +8,8 @@ if filePath not in sys.path:
     sys.path.append(filePath)
 
 import gui
-import general_functions
-import RadialSphere
-import SpherifiedCube
-import Icosahedron
-import RandomSphere
-import FibonacciSphere
+from funcs import general_functions
+from Topologies import RandomSphere, FibonacciSphere, Icosahedron, SpherifiedCube, RadialSphere
 
 modules = {
     RadialSphere.LABEL: RadialSphere,
