@@ -76,7 +76,7 @@ def updateTransform(self=None, context=bpy.context):
 
 
 def register():
-    # TODO: eliminare questi unregister doppioni
+    # TODO: for a regular addon, this duplicates should be removed (but useful when debugging stuff)
     try:
         for mod in modules.values():
             mod.unregister()
