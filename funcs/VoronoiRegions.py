@@ -64,7 +64,9 @@ def voronoiTransform(bm, discard_old=True):
     # for each vertex, create face with circumcenters of adjacent faces
     bm.normal_update()
     for v in bm.verts:
-        new_bm.faces.new(getOrderedVertices(v, circumcenters))
+        face_verts = getOrderedVertices(v, circumcenters)
+        if len(face_verts) > 2:
+            new_bm.faces.new(face_verts)
     new_bm.faces.ensure_lookup_table()
 
     if discard_old:
@@ -88,17 +90,17 @@ def getOrderedVertices(v, circumcenters):
     face = faces.pop(0)
     verts_set = set(face.verts)
     circs.append(circumcenters[face])
-    for i in range(len(v.link_faces) - 2):
+    for i in range(len(v.link_faces) - 1):
         for f in faces:
             if len(verts_set.intersection(f.verts)) > 1:
                 # if 2 faces have more than one vertex in common, they are adjacent
-                face = f
+                verts_set = set(f.verts)
+                circs.append(circumcenters[f])
                 faces.remove(f)
-                verts_set = set(face.verts)
-                circs.append(circumcenters[face])
                 break
 
     # check if vertices are in counterclockwise order relative to <v>'s normal, else invert them
+    sortVertsClockwise([v, ], v.normal)
     normal = np.array(v.normal)
     v_c = np.array(v.co)
     a = np.array(circs[0].co) - v_c
@@ -106,6 +108,7 @@ def getOrderedVertices(v, circumcenters):
     if np.cross(a, b).dot(normal) < 0:
         circs = circs[::-1]
 
+    print(circs)
     return circs
 
 

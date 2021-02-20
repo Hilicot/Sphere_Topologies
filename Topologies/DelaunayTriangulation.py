@@ -1,6 +1,7 @@
 import numpy as np
-from math import floor
+from math import floor, atan2, pi
 from scipy.spatial import Delaunay
+import bmesh
 
 '''SOURCE: https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/'''
 
@@ -34,7 +35,17 @@ def project(radius, ordinates, z):
     return radius * ordinates / (z + radius)
 
 
-def delaunayTriangulate(mesh, bm):
+def delaunayTriangulate(mesh, bm, threshold = 0.8):
+    """
+    given a <mesh> and Bmesh <bm>, flatten the mesh with stereographic project, create a certain number of faces and restore the original shape og the sphere
+
+    number of faces and final form are controlled through the sphere_transform and sphere_transform2 properties
+
+    :param threshold: sphere_transform value after which the bottom hole is filled (set to 0 to always fill it, 1 to never fill it)
+    :param mesh:
+    :param bm:
+    :return:
+    """
     props = mesh.SphereTopology
     iterations = floor(props.sphere_transform2 * props.sphere_resolution)
     if iterations < 1:
@@ -64,3 +75,12 @@ def delaunayTriangulate(mesh, bm):
     # re-project back to shape defined by transform2
     stereographicProjection(bm.verts, mesh['verts'], props.sphere_radius, props.sphere_transform)
 
+    # after the <threshold>, fill the gap at the bottom of the mesh with triangles (might not match the Delauney pattern)
+    if props.sphere_transform2 > threshold:
+        border_verts = sorted([v for v in bm.verts if v.is_boundary], key=getFlatAngle)
+        new_face = bm.faces.new(border_verts)
+        bmesh.ops.triangulate(bm, faces=[new_face])
+
+
+def getFlatAngle(vert):
+    return atan2(vert.co[1], vert.co[0])+2*pi
