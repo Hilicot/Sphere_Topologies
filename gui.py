@@ -67,7 +67,7 @@ class MyProperties(bpy.types.PropertyGroup):
 
     sphere_transform2: FloatProperty(
         name="Transformation2",
-        description="Delauney Completion",
+        description="Delauney Completion (1 to show all faces, else the lower the number, the fewer faces are computed)",
         default=1.0,
         min=0.0,
         max=1.0,

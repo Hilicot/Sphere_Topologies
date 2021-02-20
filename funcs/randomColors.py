@@ -2,6 +2,7 @@ import bpy
 import bmesh
 import random
 
+'''This function/operator was made to generate a different color for each face based on the already present materials of the currently select model in Blender'''
 
 class MESH_OT_randomizeColors(bpy.types.Operator):
     bl_idname = "mesh.randomize_colors"
