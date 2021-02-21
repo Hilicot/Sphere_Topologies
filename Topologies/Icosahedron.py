@@ -15,7 +15,7 @@ class MESH_OT_CreateIcosahedron(bpy.types.Operator):
 
         # create Bmesh
         bm = bmesh.new()
-        getNewBaseIcosahedron(bm, 2)
+        bm = getNewBaseIcosahedron(bm, 2)
         bm.to_mesh(mesh)
         obj.select_set(True)
 
@@ -67,7 +67,6 @@ def subdivide(bm, iterations, radius) -> None:
             normalizeVert(v, radius)
             medianPoints[getEdgeTuple(edge)] = v
 
-        print("Subdividing %d faces... " % len(bm.faces))
         points = [0] * 3
         for x, face in enumerate(faceListCopy):
             bm.faces.ensure_lookup_table()
@@ -85,8 +84,7 @@ def subdivide(bm, iterations, radius) -> None:
             bm.faces.new([points[0], points[1], points[2]])
             bm.faces.ensure_lookup_table()
             bm.faces.remove(face)
-            print("\rprocessing face %d" % x, end="")
-        print()
+
         for edge in edgeListCopy:
             bm.edges.remove(edge)
             bm.edges.ensure_lookup_table()
@@ -111,7 +109,7 @@ def updateSphereResolution(mesh):
 
     if res < old_res:
         # get bmesh of default IcoSphere
-        getNewBaseIcosahedron(bm, radius)
+        bm = getNewBaseIcosahedron(bm, radius)
         iterations = res - 1
     elif res > old_res:
         iterations = res - old_res
@@ -157,23 +155,24 @@ def getNewBaseIcosahedron(bm, radius):
     :return bm:
     """
     # clean Bmesh container
-    removeExcessBMElem(bm.verts, 0)
+    bm.free()
+    bm = bmesh.new()
 
     # place vertex one by one
     t = (1 + 5 ** 0.5) / 2  # golden ratio
 
-    bm.verts.new(normalize([-1, t, 0],radius))
-    bm.verts.new(normalize([1, t, 0],radius))
-    bm.verts.new(normalize([-1, -t, 0],radius))
-    bm.verts.new(normalize([1, -t, 0],radius))
-    bm.verts.new(normalize([0, -1, t],radius))
-    bm.verts.new(normalize([0, 1, t],radius))
-    bm.verts.new(normalize([0, -1, -t],radius))
-    bm.verts.new(normalize([0, 1, -t],radius))
-    bm.verts.new(normalize([t, 0, -1],radius))
-    bm.verts.new(normalize([t, 0, 1],radius))
-    bm.verts.new(normalize([-t, 0, -1],radius))
-    bm.verts.new(normalize([-t, 0, 1],radius))
+    bm.verts.new(normalize([-1, t, 0], radius))
+    bm.verts.new(normalize([1, t, 0], radius))
+    bm.verts.new(normalize([-1, -t, 0], radius))
+    bm.verts.new(normalize([1, -t, 0], radius))
+    bm.verts.new(normalize([0, -1, t], radius))
+    bm.verts.new(normalize([0, 1, t], radius))
+    bm.verts.new(normalize([0, -1, -t], radius))
+    bm.verts.new(normalize([0, 1, -t], radius))
+    bm.verts.new(normalize([t, 0, -1], radius))
+    bm.verts.new(normalize([t, 0, 1], radius))
+    bm.verts.new(normalize([-t, 0, -1], radius))
+    bm.verts.new(normalize([-t, 0, 1], radius))
     bm.verts.ensure_lookup_table()
 
     insertFace(bm, [0, 11, 5])

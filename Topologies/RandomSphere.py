@@ -17,6 +17,7 @@ class MESH_OT_CreateRandomSphere(bpy.types.Operator):
         (obj, mesh) = createNewEmptyObject(LABEL)
         props = mesh.SphereTopology
         props.sphere_resolution = 500
+        props.sphere_transform2 = 1
 
         bm = bmesh.new()
 

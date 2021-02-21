@@ -123,18 +123,19 @@ def insertFace(bm, v):
 
 
 def setSphereUpdated(props):
-    props.sphere_old_resolution = props.sphere_resolution * props.sphere_resolution2+ props.sphere_transform2
+    props.sphere_old_resolution = props.sphere_resolution * props.sphere_resolution2 + props.sphere_transform2
     props.sphere_old_transradius = props.sphere_transform + props.sphere_radius
 
 
 def sphereUpdateIfNeeded(mesh):
     props = mesh.SphereTopology
-    if props.sphere_old_resolution != props.sphere_resolution * props.sphere_resolution2+ props.sphere_transform2:
+    if props.sphere_old_resolution != props.sphere_resolution * props.sphere_resolution2 + props.sphere_transform2:
         main.modules[props.sphere_type].updateSphereResolution(mesh)
     elif props.sphere_old_transradius != props.sphere_transform + props.sphere_radius:
         main.modules[props.sphere_type].morphSphere(mesh)
 
 
 def printAllProps(props):
-    return "%s -> %d = %d * %d, %f = %f + %f" % (props.sphere_type, props.sphere_old_resolution, props.sphere_resolution,
-                                                props.sphere_resolution2, props.sphere_old_transradius, props.sphere_radius, props.sphere_transform)
+    return "%s -> %d = %d * %d, %f = %f + %f" % (
+        props.sphere_type, props.sphere_old_resolution, props.sphere_resolution,
+        props.sphere_resolution2, props.sphere_old_transradius, props.sphere_radius, props.sphere_transform)
