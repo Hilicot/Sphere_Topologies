@@ -1,7 +1,8 @@
 import bpy
 
 # add script folder to path if not present TODO: removable if deployed
-import sys, os
+import sys
+import os
 
 filePath = os.path.dirname(bpy.data.filepath)
 if filePath not in sys.path:

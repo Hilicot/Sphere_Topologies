@@ -100,7 +100,6 @@ def getOrderedVertices(v, circumcenters):
                 break
 
     # check if vertices are in counterclockwise order relative to <v>'s normal, else invert them
-    sortVertsClockwise([v, ], v.normal)
     normal = np.array(v.normal)
     v_c = np.array(v.co)
     a = np.array(circs[0].co) - v_c

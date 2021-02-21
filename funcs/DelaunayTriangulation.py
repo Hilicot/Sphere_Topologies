@@ -79,6 +79,7 @@ def delaunayTriangulate(mesh, bm, threshold = 0.8):
     if props.sphere_transform2 > threshold:
         border_verts = sorted([v for v in bm.verts if v.is_boundary], key=getFlatAngle)
         new_face = bm.faces.new(border_verts)
+        # noinspection PyArgumentList
         bmesh.ops.triangulate(bm, faces=[new_face])
 
 

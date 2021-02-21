@@ -4,6 +4,7 @@ import random
 
 '''This function/operator was made to generate a different color for each face based on the already present materials of the currently select model in Blender'''
 
+
 class MESH_OT_randomizeColors(bpy.types.Operator):
     bl_idname = "mesh.randomize_colors"
     bl_label = "Randomize face materials"
@@ -13,6 +14,7 @@ class MESH_OT_randomizeColors(bpy.types.Operator):
     def poll(self, context):
         return context.object is not None
 
+    # noinspection PyTypeChecker
     def execute(self, context):
         obj = bpy.context.object
         all_materials = []

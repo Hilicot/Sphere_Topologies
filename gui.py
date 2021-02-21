@@ -20,6 +20,7 @@ enum_items = [("null", " --- ", "not part of the Sphere Topology module")] + [(t
 
 
 class MyProperties(bpy.types.PropertyGroup):
+    # noinspection PyTypeChecker
     sphere_type: EnumProperty(
         items=enum_items,
         name="Type",
