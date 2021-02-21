@@ -9,7 +9,7 @@ This also means the code is poorly documented and absolutely not bug free.
 While the code works and can used in Blender, it comes as is, and it's probably more useful as a reference rather than a solid code base.
 
 ---
-##Sphere types
+## Sphere types
 Here there is a brief description of the different topologies with the relative pseudocode used to generate its vertices.
 For more detailed code, feel free to look at the python files, but remember what is was written in the previous disclaimer
 
@@ -22,7 +22,7 @@ For more detailed code, feel free to look at the python files, but remember what
     * Some faces have a different number of vertices from the others (they are quads in the middles, triangles near the poles)
     * Having an high number of meridians and low number of parallels (or viceversa) can produce weird results
 
-   
+        ```
         for p in range(parallels_num):
             plane_z = (1 - (2 * p) / (parallels_num - 1))
             teta = plane_z * pi / 2
@@ -33,7 +33,7 @@ For more detailed code, feel free to look at the python files, but remember what
                     radius * sin(phi) * cos(teta),
                     radius * sin(teta)
                 ])
-
+        ```
 1. ##### Spherified Cube
     Basically take a cube and normalize each vertex (so move it so that its distance from the center is equal to the final radius of the sphere).
     It's still quite intuitive to picture, not so much to code it.
@@ -42,7 +42,7 @@ For more detailed code, feel free to look at the python files, but remember what
     * The distribution of vertices is not regular (near the corners of the originating cube there are more and closer together)
     * unnecessarily complex
 
-
+        ```
         k = resolution + 1
         for face in range(6):
             for j in range(k):
@@ -56,7 +56,7 @@ For more detailed code, feel free to look at the python files, but remember what
             i3 = np.ones(3) * i
             cube_coords = origin[face] * radius + step3 * (i3 * right[face] + j3 * up[face]) * radius * 2
             return normalize(cube_coords, radius)
-        
+        ```        
 1. ##### Icosahedron
     Create a base icosahedron, then subdivide each face until you reach the desired resolution.
     The easiest way to generate the basic mesh is to hard code it (see [here](https://github.com/Hilicot/Sphere_Topologies/blob/334f1b12382f4a85f1754264d12651a8a8fe3577/Topologies/Icosahedron.py#L151)),
@@ -71,14 +71,14 @@ For more detailed code, feel free to look at the python files, but remember what
     so the number of faces grows exponentially and you can't easily control it's vertex count.
         The geometric progression goes like: 20, 80, 320, 1280, 5120, 20480, ...
     
-
+        ```
         mesh = generateBaseIcosahedron()
         for i in range(iterations):    
             for edge in mesh.edges:
                 # get median point position, normalize and create median vertex
                 co = [edge.verts[0].co[i] + edge.verts[1].co[i] for i in range(3)]
                 addVertex(normalize(co, radius))
-
+        ```
 1. ##### Fibonacci Sphere
     This is a really simple, yet quite powerful, topology. 
     It's based on the golden angle to place the vertices on a spiral and achieve a very good vertex density
@@ -93,7 +93,7 @@ For more detailed code, feel free to look at the python files, but remember what
     * Faces still have different shapes
     * The poles are the 2 ends of the spiral, so they can have a different local topology
 
-       
+        ```      
         phi = pi * (3 - sqrt(5))  # golden angle (radians)
         for i in range(res):
             theta = phi * i
@@ -101,14 +101,14 @@ For more detailed code, feel free to look at the python files, but remember what
             x = radius * cos(theta) * sqrt(1 - z * z)
             y = radius * sin(theta) * sqrt(1 - z * z)
             addVertex([x, y, z])
-
+        ```
 1. ##### Random Sphere
 
     This is not a good topology: you need many points and the surface has areas of much higher density then others.
     This could be solved with a stronger pseudo-random generator, but it would still be bad
     The faces can be easily generated with Delauney Triangulation
         
-        
+         ```       
         for i in range(res):
             # generate random rotation angle and latitude
             phi = random() * 2 * pi
@@ -120,7 +120,7 @@ For more detailed code, feel free to look at the python files, but remember what
                 sin(phi) * dist,
                 latitude
             ])
-    
+         ```   
 
 ### Sources
 Very good article on Delauney Triangulation and Voronoi regions -> https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/
