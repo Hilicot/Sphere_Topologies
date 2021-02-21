@@ -15,7 +15,7 @@ class MESH_OT_CreateIcosahedron(bpy.types.Operator):
 
         # create Bmesh
         bm = bmesh.new()
-        bm = getNewBaseIcosahedron(bm, 2)
+        bm = getNewBaseIcosahedron(2)
         bm.to_mesh(mesh)
         obj.select_set(True)
 
@@ -109,7 +109,7 @@ def updateSphereResolution(mesh):
 
     if res < old_res:
         # get bmesh of default IcoSphere
-        bm = getNewBaseIcosahedron(bm, radius)
+        bm = getNewBaseIcosahedron(radius)
         iterations = res - 1
     elif res > old_res:
         iterations = res - old_res
@@ -146,16 +146,14 @@ def morphSphere(mesh):
     setSphereUpdated(mytool)
 
 
-def getNewBaseIcosahedron(bm, radius):
+def getNewBaseIcosahedron(radius):
     """
     create basic 12-vertex Icosahedron
 
     :param radius:
-    :param Bmesh bm: Bmesh container (it will be overwritten)
-    :return bm:
+    :return BMesh bm: the resulting icosahedron mesh
     """
-    # clean Bmesh container
-    bm.free()
+    # get clean Bmesh container
     bm = bmesh.new()
 
     # place vertex one by one
