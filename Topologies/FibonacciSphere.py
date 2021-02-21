@@ -64,10 +64,10 @@ def createFibonacciSphere(bm, radius, res):
 
     for i in range(res):
         theta = phi * i
-        y = 1 - (i / (res - 1)) * 2
-        dist_y = math.sqrt(1 - y * y)
-        x = math.cos(theta) * dist_y
-        z = math.sin(theta) * dist_y
+        z = - 1 + (i / (res - 1)) * 2
+        dist_z = math.sqrt(1 - z ** 2)
+        x = math.cos(theta) * dist_z
+        y = math.sin(theta) * dist_z
         coords = np.array([x, y, z])
 
         bm.verts.new(coords * radius)
