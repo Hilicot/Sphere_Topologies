@@ -3,10 +3,10 @@ Let's compare some topologies of spheres and see how they behave. This code is w
 
 ##### IMPORTANT DISCLAIMER
 This code was made for me only, to generate and animate different sphere meshes inside Blender 2.90 for visual representation. 
-This project is made to work as a Blender script that is able to create spheres and dynamically change its properties, 
-so in the code there will be additional step that are not stricly concerned with the mesh generation.
+This project is made to work as a Blender script that is able to create spheres and dynamically change their properties, 
+so in the code there will be additional steps that are not stricly concerned with the mesh generation.
 This also means the code is poorly documented and absolutely not bug free. 
-While the code works and can used in Blender, it comes as is, and it's probably more useful as a reference rather than a solid code base.
+While the code works and can be used in Blender, it comes as is, and it's probably more useful as a reference rather than a solid code base.
 
 ---
 ## Sphere types
