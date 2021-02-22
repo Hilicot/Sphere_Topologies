@@ -7,7 +7,7 @@ OPERATOR = "mesh.create_icosahedron"
 
 # create operator
 class MESH_OT_CreateIcosahedron(bpy.types.Operator):
-    bl_idname = "mesh.create_icosahedron"
+    bl_idname = OPERATOR
     bl_label = LABEL
 
     def execute(self, context):
@@ -50,7 +50,6 @@ def subdivide(bm, iterations, radius) -> None:
     :param float radius:
     """
 
-    print("subdividing " + str(iterations) + " times")
     for i in range(iterations):
 
         faceListCopy = list(bm.faces).copy()

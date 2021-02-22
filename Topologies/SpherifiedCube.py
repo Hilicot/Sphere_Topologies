@@ -33,7 +33,7 @@ up = [
 
 # create operator
 class MESH_OT_CreateSpherifiedCube(bpy.types.Operator):
-    bl_idname = "mesh.create_spherified_cube"
+    bl_idname = OPERATOR
     bl_label = LABEL
 
     def execute(self, context):

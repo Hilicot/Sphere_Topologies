@@ -9,7 +9,7 @@ OPERATOR = "mesh.create_radial_sphere"
 
 # create operator
 class MESH_OT_CreateRadialSphere(bpy.types.Operator):
-    bl_idname = "mesh.create_radial_sphere"
+    bl_idname = OPERATOR
     bl_label = LABEL
 
     def execute(self, context):
