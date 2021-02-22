@@ -14,7 +14,6 @@ class MESH_OT_CreateIcosahedron(bpy.types.Operator):
         (obj, mesh) = createNewEmptyObject(LABEL)
 
         # create Bmesh
-        bm = bmesh.new()
         bm = getNewBaseIcosahedron(2)
         bm.to_mesh(mesh)
         obj.select_set(True)
@@ -116,6 +115,7 @@ def updateSphereResolution(mesh):
     else:
         return
 
+    # noinspection PyTypeChecker
     subdivide(bm, iterations, radius)
 
     bm.to_mesh(mesh)
