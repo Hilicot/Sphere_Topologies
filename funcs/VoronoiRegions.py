@@ -107,7 +107,6 @@ def getOrderedVertices(v, circumcenters):
     if np.cross(a, b).dot(normal) < 0:
         circs = circs[::-1]
 
-    print(circs)
     return circs
 
 
