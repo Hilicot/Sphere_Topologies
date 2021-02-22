@@ -10,12 +10,13 @@ if filePath not in sys.path:
 
 import gui
 from funcs import general_functions
-from Topologies import RandomSphere, FibonacciSphere, Icosahedron, SpherifiedCube, RadialSphere
+from Topologies import RandomSphere, FibonacciSphere, Icosahedron, SpherifiedCube, RadialSphere, TruncatedIcosahedron
 
 modules = {
     RadialSphere.LABEL: RadialSphere,
     SpherifiedCube.LABEL: SpherifiedCube,
     Icosahedron.LABEL: Icosahedron,
+    TruncatedIcosahedron.LABEL: TruncatedIcosahedron,
     RandomSphere.LABEL: RandomSphere,
     FibonacciSphere.LABEL: FibonacciSphere
 }
