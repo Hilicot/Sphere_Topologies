@@ -123,6 +123,6 @@ For more detailed code, feel free to look at the python files, but remember what
          ```   
 
 ### Sources
-Very good article on Delauney Triangulation and Voronoi regions -> https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/
+Very good article on Delauney Triangulation and Voronoi regions [here](https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/)
 
-GitHub post on some basic topologies --> https://github.com/caosdoar/spheres
+GitHub post on some basic topologies [here](https://github.com/caosdoar/spheres)
