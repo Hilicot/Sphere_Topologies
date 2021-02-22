@@ -15,13 +15,19 @@ def stereographicProjection(verts, origin_verts, radius, transform):
     :param verts: bmesh vertes list to modify
     :param float transform:
     """
-    error_margin = 0.001 * np.ones(3)
+    error_margin = 0.001 * np.ones(3)  # mandated by the delaunay transform
     origin = np.array([0, 0, -radius])
     for i, v in enumerate(verts):
         coord = np.array(origin_verts[i])
-        if not (coord - origin <= error_margin).all():
+        if (coord - origin <= error_margin).all():
+            # stereographic project doesn't work if the point is too close to the south pole (the projection goes to infinity),
+            # so manually put it at a very long distance (could cause problems for very dense sphere,
+            # in that case you would need to further increase teh distance)
+            corrected_coords = [1, np.random.rand()*2-1, -radius+error_margin[2]]  # introduce randomness in case there are more than one problematic points
+            sp = np.array([project(radius, corrected_coords[0], corrected_coords[2]), project(radius, corrected_coords[1], corrected_coords[2]), -1])
+        else:
             sp = np.array([project(radius, coord[0], coord[2]), project(radius, coord[1], coord[2]), -1])
-            v.co = sp * (1 - transform) + transform * coord
+        v.co = sp * (1 - transform) + transform * coord
 
 
 def project(radius, ordinates, z):
@@ -35,7 +41,7 @@ def project(radius, ordinates, z):
     return radius * ordinates / (z + radius)
 
 
-def delaunayTriangulate(mesh, bm, threshold = 0.8):
+def delaunayTriangulate(mesh, bm, threshold=0.8):
     """
     given a <mesh> and Bmesh <bm>, flatten the mesh with stereographic project, create a certain number of faces and restore the original shape og the sphere
 
