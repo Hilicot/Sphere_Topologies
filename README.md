@@ -40,7 +40,7 @@ For more detailed code, feel free to look at the python files, but remember what
     It still has problems:
     * Faces have different shape and size
     * The distribution of vertices is not regular (near the corners of the originating cube there are more and closer together)
-    * unnecessarily complex
+    * once you have the cube, it's really easy to calculate
 
         ```
         k = resolution + 1
