@@ -126,7 +126,7 @@ For more detailed code, feel free to look at the python files, but remember what
 1. ##### Random Sphere
 
     This is not a good topology: you need many points and the surface has areas of much higher density then others.
-    This could be solved with a stronger pseudo-random generator, but it would still be bad
+    This could be solved with a stronger pseudo-random generator, but it would still be bad.
     The faces can be easily generated with Delauney Triangulation
         
          ```       
