@@ -3,7 +3,7 @@ from random import random
 from funcs.general_functions import *
 from funcs.DelaunayTriangulation import *
 
-LABEL = "random Sphere"
+LABEL = "Random Sphere"
 OPERATOR = "mesh.create_random_sphere"
 
 

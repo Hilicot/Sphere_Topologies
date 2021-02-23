@@ -109,6 +109,7 @@ For more detailed code, feel free to look at the python files, but remember what
     * Faces have all similar size (but not exactly equal)
     * When you animate it it looks absolutely bonkers
     * Can be created with any number of vertices (so it's very granular)
+    
     Cons:
     * Faces still have different shapes
     * At the poles the topology loses all regularity
