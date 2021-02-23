@@ -1,7 +1,8 @@
 import numpy as np
-from math import floor, atan2, pi
+from math import floor
 from scipy.spatial import Delaunay
 import bmesh
+from funcs.general_functions import getFlatAngle
 
 '''SOURCE: https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/'''
 
@@ -23,8 +24,10 @@ def stereographicProjection(verts, origin_verts, radius, transform):
             # stereographic project doesn't work if the point is too close to the south pole (the projection goes to infinity),
             # so manually put it at a very long distance (could cause problems for very dense sphere,
             # in that case you would need to further increase teh distance)
-            corrected_coords = [1, np.random.rand()*2-1, -radius+error_margin[2]]  # introduce randomness in case there are more than one problematic points
-            sp = np.array([project(radius, corrected_coords[0], corrected_coords[2]), project(radius, corrected_coords[1], corrected_coords[2]), -1])
+            corrected_coords = [1, np.random.rand() * 2 - 1, -radius + error_margin[
+                2]]  # introduce randomness in case there are more than one problematic points
+            sp = np.array([project(radius, corrected_coords[0], corrected_coords[2]),
+                           project(radius, corrected_coords[1], corrected_coords[2]), -1])
         else:
             sp = np.array([project(radius, coord[0], coord[2]), project(radius, coord[1], coord[2]), -1])
         v.co = sp * (1 - transform) + transform * coord
@@ -83,11 +86,7 @@ def delaunayTriangulate(mesh, bm, threshold=0.8):
 
     # after the <threshold>, fill the gap at the bottom of the mesh with triangles (might not match the Delauney pattern)
     if props.sphere_transform2 > threshold:
-        border_verts = sorted([v for v in bm.verts if v.is_boundary], key=getFlatAngle)
+        border_verts = sorted([v for v in bm.verts if v.is_boundary], key=lambda v: getFlatAngle(v.co))
         new_face = bm.faces.new(border_verts)
         # noinspection PyArgumentList
         bmesh.ops.triangulate(bm, faces=[new_face])
-
-
-def getFlatAngle(vert):
-    return atan2(vert.co[1], vert.co[0])+2*pi

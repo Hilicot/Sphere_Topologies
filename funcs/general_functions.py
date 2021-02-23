@@ -5,6 +5,7 @@ general functions for all scripts in the Sphere Topologies package
 import bpy
 import bmesh
 import main
+from math import atan2, pi
 
 
 def createNewEmptyObject(objName="new Empty Object"):
@@ -105,6 +106,10 @@ def normalize(coords, radius):
     for axis in range(3):
         co[axis] = coords[axis] / dist * radius
     return co
+
+
+def getFlatAngle(vert):
+    return atan2(vert[1], vert[0])+2*pi
 
 
 def insertFace(bm, v):
