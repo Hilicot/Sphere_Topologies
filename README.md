@@ -111,7 +111,7 @@ For more detailed code, feel free to look at the python files, but remember what
     * Can be created with any number of vertices (so it's very granular)
     Cons:
     * Faces still have different shapes
-    * The poles are the 2 ends of the spiral, so they can have a different local topology
+    * At the poles the topology loses all regularity
 
         ```      
         phi = pi * (3 - sqrt(5))  # golden angle (radians)
