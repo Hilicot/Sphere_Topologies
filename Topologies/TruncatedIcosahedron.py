@@ -1,6 +1,10 @@
-import bmesh
+
+import numpy as np
+from numpy.linalg import norm
 from funcs.general_functions import *
-from Topologies.Icosahedron import getNewBaseIcosahedron
+from Topologies.Icosahedron import getNewBaseIcosahedron, subdivide
+from funcs.general_functions import getFlatAngle
+
 
 LABEL = "Truncated Icosahedron"
 OPERATOR = "mesh.create_truncated_icosahedron"
@@ -16,7 +20,7 @@ class MESH_OT_CreateTruncatedIcosahedron(bpy.types.Operator):
 
         # create Bmesh
         bm = getNewBaseIcosahedron(2)
-        truncate(bm)
+        bm = truncateSolid(bm)
         bm.to_mesh(mesh)
         obj.select_set(True)
 
@@ -54,22 +58,16 @@ def updateSphereResolution(mesh):
 
     mytool = mesh.SphereTopology
     res = mytool.sphere_resolution
-    old_res = mytool.sphere_old_resolution
     radius = mytool.sphere_radius
-    verts = bm.verts
-    verts.ensure_lookup_table()
+    bm.verts.ensure_lookup_table()
 
-    if res < old_res:
-        # get bmesh of default IcoSphere
-        bm = getNewBaseIcosahedron(radius)
-        iterations = res - 1
-    elif res > old_res:
-        iterations = res - old_res
-    else:
-        return
+    # get bmesh of default IcoSphere
+    bm = getNewBaseIcosahedron(radius)
+    iterations = res - 1
 
     # noinspection PyTypeChecker
     subdivide(bm, iterations, radius)
+    bm = truncateSolid(bm)
 
     bm.to_mesh(mesh)
     bm.free()
@@ -88,13 +86,56 @@ def morphSphere(mesh):
 
     mytool = mesh.SphereTopology
     radius = mytool.sphere_radius
-    verts = bm.verts
 
     # update all vertices
-    for v in verts:
+    for v in bm.verts:
         normalizeVert(v, radius)
 
     bm.to_mesh(mesh)
     bm.free()
     setSphereUpdated(mytool)
 
+
+def truncateSolid(bm_old) -> bmesh:
+    bm = bmesh.new()
+    bm_old.normal_update()
+
+    pentagon_vertices = {v: [] for v in bm_old.verts}
+    exagon_vertices = {f: [] for f in bm_old.faces}
+    for edge in bm_old.edges:
+        a = np.array(edge.verts[0].co)
+        b = np.array(edge.verts[1].co)
+        v1 = bm.verts.new((2 * a + b) / 3)
+        v2 = bm.verts.new((a + 2 * b) / 3)
+        pentagon_vertices[edge.verts[0]].append(v1)
+        pentagon_vertices[edge.verts[1]].append(v2)
+        exagon_vertices[edge.link_faces[0]] += [v1, v2]
+        exagon_vertices[edge.link_faces[1]] += [v1, v2]
+    bm.verts.ensure_lookup_table()
+
+    # for each pentagon and exagon, sort vertices in anticlockwise order around the old vertex/face normal and create new face
+    for old_elem, vertices in {**pentagon_vertices, **exagon_vertices}.items():
+        orderedVerts = sortAntiClockwise3D(old_elem.normal, vertices)
+        bm.faces.new(orderedVerts)
+
+    bm_old.free()
+    return bm
+
+
+def sortAntiClockwise3D(normal, verts):
+    # if normal is vertical, use simple flat trigonometry
+    if abs(normal[0]) < 0.0001 and abs(normal[1]) < 0.0001:
+        return sorted(verts, key=lambda v: getFlatAngle(v.co))
+    # convert to local coordinates on the 2D plane of the future face to sort using flat angles
+    n = np.array(normal)
+    z = n / norm(n)
+    u = np.array([0, 0, 1])
+    k = u - np.dot(u, z) * z
+    x = k / norm(k)
+    y = np.cross(z, x)
+    return sorted(verts, key=lambda vert: getFlatAngle(convertToFlatCoordinates(vert.co, x, y)))
+
+
+def convertToFlatCoordinates(coords, x, y):
+    co = np.array(coords)
+    return [np.dot(co, x), np.dot(co, y)]

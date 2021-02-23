@@ -86,6 +86,7 @@ def subdivide(bm, iterations, radius) -> None:
         for edge in edgeListCopy:
             bm.edges.remove(edge)
             bm.edges.ensure_lookup_table()
+    bm.normal_update()
 
 
 # must keep this prototype
@@ -102,8 +103,7 @@ def updateSphereResolution(mesh):
     res = mytool.sphere_resolution
     old_res = mytool.sphere_old_resolution
     radius = mytool.sphere_radius
-    verts = bm.verts
-    verts.ensure_lookup_table()
+    bm.verts.ensure_lookup_table()
 
     if res < old_res:
         # get bmesh of default IcoSphere
@@ -134,10 +134,9 @@ def morphSphere(mesh):
 
     mytool = mesh.SphereTopology
     radius = mytool.sphere_radius
-    verts = bm.verts
 
     # update all vertices
-    for v in verts:
+    for v in bm.verts:
         normalizeVert(v, radius)
 
     bm.to_mesh(mesh)
@@ -192,7 +191,7 @@ def getNewBaseIcosahedron(radius):
     insertFace(bm, [6, 2, 10])
     insertFace(bm, [8, 6, 7])
     insertFace(bm, [9, 8, 1])
-
+    bm.faces.ensure_lookup_table()
     return bm
 
 
