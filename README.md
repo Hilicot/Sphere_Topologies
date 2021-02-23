@@ -79,6 +79,26 @@ For more detailed code, feel free to look at the python files, but remember what
                 co = [edge.verts[0].co[i] + edge.verts[1].co[i] for i in range(3)]
                 addVertex(normalize(co, radius))
         ```
+      
+1. ##### Truncated Icosahedron
+    It's the popular shape of the football (or soccer ball), generated from an Icosahedron which vertices are cut of and replaced with a pentagonal face.
+    To increase the resolution you can do it in different ways, I chose to truncate a subdivided Icosahedron like shown before, getting this way a Goldberg Polyhedron
+    
+    It has similar characteristics to the Icosahedron, except that now the faces are not equal to each other (they are pentagons and hexagons), 
+    so it's not the best to just approximate a sphere.
+    However, it is esthetically pleasing, and if you want to cover your sphere with hexagons tiles, this is likely the closer you will get
+    
+    You can also truncate a cube or a tetrahedron, which can increase resolution more granularly, but have more noticeable deformations near the original corners
+    
+        ```
+        # read data from an Icosahedron to build a separate new mesh
+        for edge in Icosahedron_edges:
+            a = edge.verts[0]
+            b = edge.verts[1]
+            v1 = addVertex((2 * a + b) / 3)
+            v2 = addVertex((a + 2 * b) / 3)
+        ```
+
 1. ##### Fibonacci Sphere
     This is a really simple, yet quite powerful, topology. 
     It's based on the golden angle to place the vertices on a spiral and achieve a very good vertex density
