@@ -45,6 +45,8 @@ def unregister():
 
 ############################################
 
+# ATTENTION! updateSphereResolution() doesn't normalize vertices to keep the same dimensions of the generating Icosahedron.
+# this means that morphSphere() will have a "jump" the first time it is used
 
 # must keep this prototype
 def updateSphereResolution(mesh):
@@ -101,7 +103,7 @@ def truncateSolid(bm_old) -> bmesh:
     bm_old.normal_update()
 
     pentagon_vertices = {v: [] for v in bm_old.verts}
-    exagon_vertices = {f: [] for f in bm_old.faces}
+    hexagon_vertices = {f: [] for f in bm_old.faces}
     for edge in bm_old.edges:
         a = np.array(edge.verts[0].co)
         b = np.array(edge.verts[1].co)
@@ -109,12 +111,12 @@ def truncateSolid(bm_old) -> bmesh:
         v2 = bm.verts.new((a + 2 * b) / 3)
         pentagon_vertices[edge.verts[0]].append(v1)
         pentagon_vertices[edge.verts[1]].append(v2)
-        exagon_vertices[edge.link_faces[0]] += [v1, v2]
-        exagon_vertices[edge.link_faces[1]] += [v1, v2]
+        hexagon_vertices[edge.link_faces[0]] += [v1, v2]
+        hexagon_vertices[edge.link_faces[1]] += [v1, v2]
     bm.verts.ensure_lookup_table()
 
-    # for each pentagon and exagon, sort vertices in anticlockwise order around the old vertex/face normal and create new face
-    for old_elem, vertices in {**pentagon_vertices, **exagon_vertices}.items():
+    # for each pentagon and hexagon, sort vertices in anticlockwise order around the old vertex/face normal and create new face
+    for old_elem, vertices in {**pentagon_vertices, **hexagon_vertices}.items():
         orderedVerts = sortAntiClockwise3D(old_elem.normal, vertices)
         bm.faces.new(orderedVerts)
 
