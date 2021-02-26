@@ -1,9 +1,9 @@
 
 import numpy as np
 from numpy.linalg import norm
-from funcs.general_functions import *
-from Topologies.Icosahedron import getNewBaseIcosahedron, subdivide
-from funcs.general_functions import getFlatAngle
+from .funcs.general_functions import *
+from .Topologies.Icosahedron import getNewBaseIcosahedron, subdivide
+from .funcs.general_functions import getFlatAngle
 
 
 LABEL = "Truncated Icosahedron"

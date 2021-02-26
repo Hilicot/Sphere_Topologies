@@ -2,7 +2,7 @@ import numpy as np
 from math import floor
 from scipy.spatial import Delaunay
 import bmesh
-from funcs.general_functions import getFlatAngle
+from .funcs.general_functions import getFlatAngle
 
 '''SOURCE: https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/'''
 

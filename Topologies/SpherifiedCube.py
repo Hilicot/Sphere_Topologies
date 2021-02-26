@@ -1,6 +1,6 @@
 import bmesh
 import numpy as np
-from funcs.general_functions import *
+from .funcs.general_functions import *
 
 LABEL = "Spherified Cube"
 OPERATOR = "mesh.create_spherified_cube"

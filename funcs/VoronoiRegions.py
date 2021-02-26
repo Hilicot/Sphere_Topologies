@@ -1,7 +1,7 @@
 import bpy
 import bmesh
 import numpy as np
-from funcs.general_functions import getCurrentBMesh
+from .funcs.general_functions import getCurrentBMesh
 
 
 class IncorrectTopology(Exception):
