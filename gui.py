@@ -1,7 +1,6 @@
 import bpy
-import main
-from Topologies import RandomSphere, FibonacciSphere, RadialSphere
-from funcs import randomColors, VoronoiRegions
+from . import Topologies, funcs
+from .main import getModules
 
 from bpy.props import (
     IntProperty,
@@ -16,7 +15,7 @@ from bpy.props import (
 '''
 
 enum_items = [("null", " --- ", "not part of the Sphere Topology module")] + [(t[0], t[0], "") for t in
-                                                                              main.modules.items()]
+                                                                              getModules().items()]
 
 
 class MyProperties(bpy.types.PropertyGroup):
@@ -30,7 +29,7 @@ class MyProperties(bpy.types.PropertyGroup):
     sphere_radius: FloatProperty(
         name="Radius",
         default=2,
-        update=main.updateTransform
+        update=getUpdateTransform()
     )
 
     sphere_resolution: IntProperty(
@@ -38,7 +37,7 @@ class MyProperties(bpy.types.PropertyGroup):
         description="resolution of the sphere",
         default=3,
         min=1,
-        update=main.updateResolution
+        update=getUpdateResolution()
     )
 
     sphere_resolution2: IntProperty(
@@ -46,7 +45,7 @@ class MyProperties(bpy.types.PropertyGroup):
         description="numbers of parallels of the sphere",
         default=1,
         min=1,
-        update=main.updateResolution
+        update=getUpdateResolution()
     )
 
     # To ensure correct update triggering, after each update this prop must be equal to resolution*resolution2
@@ -63,7 +62,7 @@ class MyProperties(bpy.types.PropertyGroup):
         default=1.0,
         min=0.0,
         max=1.0,
-        update=main.updateTransform
+        update=getUpdateTransform()
     )
 
     sphere_transform2: FloatProperty(
@@ -72,7 +71,7 @@ class MyProperties(bpy.types.PropertyGroup):
         default=0.0,
         min=0.0,
         max=1.0,
-        update=main.updateResolution
+        update=getUpdateResolution()
     )
 
     sphere_old_transradius: FloatProperty(
@@ -112,10 +111,10 @@ class MESH_PT_sphere_topologies(bpy.types.Panel):
 
         layout.prop(mytool, "sphere_radius")
         layout.prop(mytool, "sphere_resolution")
-        if mytool.sphere_type == RadialSphere.LABEL:
+        if mytool.sphere_type == Topologies.RadialSphere.LABEL:
             layout.prop(mytool, "sphere_resolution2")
         layout.prop(mytool, "sphere_transform")
-        if mytool.sphere_type == RandomSphere.LABEL or mytool.sphere_type == FibonacciSphere.LABEL:
+        if mytool.sphere_type == Topologies.RandomSphere.LABEL or mytool.sphere_type == Topologies.FibonacciSphere.LABEL:
             layout.prop(mytool, "sphere_transform2")
 
 
@@ -132,7 +131,7 @@ class MESH_MT_sphere_topology_menu(bpy.types.Menu):
 
     def draw(self, context):
         layout = self.layout
-        for mod in main.modules.values():
+        for mod in getModules().values():
             layout.operator(mod.OPERATOR)
 
         layout.separator()
@@ -160,8 +159,8 @@ def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 
-    randomColors.register()
-    VoronoiRegions.register()
+    funcs.randomColors.register()
+    funcs.VoronoiRegions.register()
     bpy.types.VIEW3D_MT_mesh_add.append(menu_func)
     bpy.types.Mesh.SphereTopology = PointerProperty(type=MyProperties)
 
@@ -170,7 +169,7 @@ def unregister():
     for cls in classes:
         bpy.utils.unregister_class(cls)
 
-    randomColors.unregister()
-    VoronoiRegions.unregister()
+    funcs.randomColors.unregister()
+    funcs.VoronoiRegions.unregister()
     bpy.types.VIEW3D_MT_add.remove(menu_func)
     del bpy.types.Mesh.SphereTopology
