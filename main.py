@@ -1,3 +1,9 @@
+bl_info = {
+    "name": "Sphere Topologies",
+    "blender": (2, 80, 0),
+    "category": "Mesh",
+}
+
 import bpy
 
 # add script folder to path if not present TODO: removable if deployed
