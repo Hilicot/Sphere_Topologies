@@ -1,6 +1,7 @@
 import bpy
 
-from . import Topologies, funcs
+from . import funcs
+from .Topologies import *
 from bpy.props import (
     IntProperty,
     FloatProperty,
@@ -12,12 +13,12 @@ from bpy.props import (
 
 def getModules():
     return {
-        Topologies.RadialSphere.LABEL: Topologies.RadialSphere,
-        Topologies.SpherifiedCube.LABEL: Topologies.SpherifiedCube,
-        Topologies.Icosahedron.LABEL: Topologies.Icosahedron,
-        Topologies.TruncatedIcosahedron.LABEL: Topologies.TruncatedIcosahedron,
-        Topologies.RandomSphere.LABEL: Topologies.RandomSphere,
-        Topologies.FibonacciSphere.LABEL: Topologies.FibonacciSphere
+        RadialSphere.getLabel(): RadialSphere,
+        SpherifiedCube.getLabel(): SpherifiedCube,
+        Icosahedron.getLabel(): Icosahedron,
+        TruncatedIcosahedron.getLabel(): TruncatedIcosahedron,
+        RandomSphere.getLabel(): RandomSphere,
+        FibonacciSphere.getLabel(): FibonacciSphere
     }
 
 
@@ -187,10 +188,10 @@ class MESH_PT_sphere_topologies(bpy.types.Panel):
 
         layout.prop(mytool, "sphere_radius")
         layout.prop(mytool, "sphere_resolution")
-        if mytool.sphere_type == Topologies.RadialSphere.LABEL:
+        if mytool.sphere_type == Topologies.RadialSphere.getLabel():
             layout.prop(mytool, "sphere_resolution2")
         layout.prop(mytool, "sphere_transform")
-        if mytool.sphere_type == Topologies.RandomSphere.LABEL or mytool.sphere_type == Topologies.FibonacciSphere.LABEL:
+        if mytool.sphere_type == Topologies.RandomSphere.getLabel() or mytool.sphere_type == Topologies.FibonacciSphere.getLabel():
             layout.prop(mytool, "sphere_transform2")
 
 

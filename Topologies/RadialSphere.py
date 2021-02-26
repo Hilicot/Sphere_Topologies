@@ -3,17 +3,22 @@ from math import sin, cos, pi
 import numpy as np
 from .funcs.general_functions import *
 
-LABEL = "Radial Sphere"
-OPERATOR = "mesh.create_radial_sphere"
+
+def getLabel():
+    return "Radial Sphere"
+
+
+def getOperator():
+    return "mesh.create_radial_sphere"
 
 
 # create operator
 class MESH_OT_CreateRadialSphere(bpy.types.Operator):
-    bl_idname = OPERATOR
-    bl_label = LABEL
+    bl_idname = getOperator()
+    bl_label = getLabel()
 
     def execute(self, context):
-        (obj, mesh) = createNewEmptyObject(LABEL)
+        (obj, mesh) = createNewEmptyObject(getLabel())
 
         # create BMesh
         props = mesh.SphereTopology
@@ -32,7 +37,7 @@ class MESH_OT_CreateRadialSphere(bpy.types.Operator):
         bm.free()
 
         # Set remaining settings
-        props.sphere_type = LABEL
+        props.sphere_type = getLabel()
         setSphereUpdated(props)
         props.sphere_do_update = True
 

@@ -3,18 +3,23 @@ from random import random
 from .funcs.general_functions import *
 from .funcs.DelaunayTriangulation import *
 
-LABEL = "Random Sphere"
-OPERATOR = "mesh.create_random_sphere"
+
+def getLabel():
+    return "Random Sphere"
+
+
+def getOperator():
+    return "mesh.create_random_sphere"
 
 
 # create operator
 class MESH_OT_CreateRandomSphere(bpy.types.Operator):
     """Create new Sphere using stereographic projection and Delauney triangulation from a randomly generated Sphere"""
-    bl_idname = OPERATOR
-    bl_label = LABEL
+    bl_idname = getOperator()
+    bl_label = getLabel()
 
     def execute(self, context):
-        (obj, mesh) = createNewEmptyObject(LABEL)
+        (obj, mesh) = createNewEmptyObject(getLabel())
         props = mesh.SphereTopology
         props.sphere_resolution = 500
         props.sphere_transform2 = 1
@@ -31,11 +36,11 @@ class MESH_OT_CreateRandomSphere(bpy.types.Operator):
         bm.free()
 
         # Set remaining settings
-        props.sphere_type = LABEL
+        props.sphere_type = getLabel()
         setSphereUpdated(props)
         props.sphere_do_update = True
 
-        self.report({'INFO'}, "created " + LABEL)
+        self.report({'INFO'}, "created " + getLabel())
 
         return {'FINISHED'}
 
@@ -62,7 +67,7 @@ def createRandomSphere(bm, radius, res):
     for i in range(res):
         # generate random rotation angle and latitude
         phi = random() * 2 * pi
-        latitude = radius * (2*random()-1)
+        latitude = radius * (2 * random() - 1)
         dist = (radius ** 2 - latitude ** 2) ** 0.5
 
         bm.verts.new([
@@ -114,5 +119,3 @@ def morphSphere(mesh):
     bm.to_mesh(mesh)
     bm.free()
     setSphereUpdated(mytool)
-
-

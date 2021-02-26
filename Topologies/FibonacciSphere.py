@@ -2,18 +2,23 @@ import math
 from .funcs.general_functions import *
 from .funcs.DelaunayTriangulation import *
 
-LABEL = "Fibonacci Sphere"
-OPERATOR = "mesh.create_fibonacci_sphere"
+
+def getLabel():
+    return "Fibonacci Sphere"
+
+
+def getOperator():
+    return "mesh.create_fibonacci_sphere"
 
 
 # create operator
 class MESH_OT_CreateFibonacciSphere(bpy.types.Operator):
     """Create new Fibonacci Sphere using stereographic projection and Delauney triangulation"""
-    bl_idname = OPERATOR
-    bl_label = LABEL
+    bl_idname = getOperator()
+    bl_label = getLabel()
 
     def execute(self, context):
-        (obj, mesh) = createNewEmptyObject(LABEL)
+        (obj, mesh) = createNewEmptyObject(getLabel())
         props = mesh.SphereTopology
         props.sphere_resolution = 500
         props.sphere_transform2 = 1
@@ -30,11 +35,11 @@ class MESH_OT_CreateFibonacciSphere(bpy.types.Operator):
         bm.free()
 
         # Set remaining settings
-        props.sphere_type = LABEL
+        props.sphere_type = getLabel()
         setSphereUpdated(props)
         props.sphere_do_update = True
 
-        self.report({'INFO'}, "created "+LABEL)
+        self.report({'INFO'}, "created " + getLabel())
 
         return {'FINISHED'}
 

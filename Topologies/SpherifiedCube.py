@@ -2,42 +2,22 @@ import bmesh
 import numpy as np
 from .funcs.general_functions import *
 
-LABEL = "Spherified Cube"
-OPERATOR = "mesh.create_spherified_cube"
 
-origin = [
-    np.array([-1, -1, -1]),
-    np.array([1, -1, -1]),
-    np.array([1, -1, 1]),
-    np.array([-1, -1, 1]),
-    np.array([-1, 1, -1]),
-    np.array([-1, -1, 1]),
-]
-right = [
-    np.array([1, 0, 0]),
-    np.array([0, 0, 1]),
-    np.array([-1, 0, 0]),
-    np.array([0, 0, -1]),
-    np.array([1, 0, 0]),
-    np.array([1, 0, 0]),
-]
-up = [
-    np.array([0, 1, 0]),
-    np.array([0, 1, 0]),
-    np.array([0, 1, 0]),
-    np.array([0, 1, 0]),
-    np.array([0, 0, 1]),
-    np.array([0, 0, -1]),
-]
+def getLabel():
+    return "Spherified Cube"
+
+
+def getOperator():
+    return "mesh.create_spherified_cube"
 
 
 # create operator
 class MESH_OT_CreateSpherifiedCube(bpy.types.Operator):
-    bl_idname = OPERATOR
-    bl_label = LABEL
+    bl_idname = getOperator()
+    bl_label = getLabel()
 
     def execute(self, context):
-        (obj, mesh) = createNewEmptyObject(LABEL)
+        (obj, mesh) = createNewEmptyObject(getLabel())
 
         # create BMesh
         props = mesh.SphereTopology
@@ -54,7 +34,7 @@ class MESH_OT_CreateSpherifiedCube(bpy.types.Operator):
         bm.free()
 
         # Set remaining settings
-        props.sphere_type = LABEL
+        props.sphere_type = getLabel()
         setSphereUpdated(props)
         props.sphere_do_update = True
 
@@ -153,6 +133,31 @@ def morphSphere(mesh):
 
 
 def getTransformedCoordinates(face, i, j, resolution, radius, transform):
+    origin = [
+        np.array([-1, -1, -1]),
+        np.array([1, -1, -1]),
+        np.array([1, -1, 1]),
+        np.array([-1, -1, 1]),
+        np.array([-1, 1, -1]),
+        np.array([-1, -1, 1]),
+    ]
+    right = [
+        np.array([1, 0, 0]),
+        np.array([0, 0, 1]),
+        np.array([-1, 0, 0]),
+        np.array([0, 0, -1]),
+        np.array([1, 0, 0]),
+        np.array([1, 0, 0]),
+    ]
+    up = [
+        np.array([0, 1, 0]),
+        np.array([0, 1, 0]),
+        np.array([0, 1, 0]),
+        np.array([0, 1, 0]),
+        np.array([0, 0, 1]),
+        np.array([0, 0, -1]),
+    ]
+
     step = 1 / resolution
     step3 = np.ones(3) * step
     j3 = np.ones(3) * j

@@ -1,17 +1,22 @@
 import bmesh
 from .funcs.general_functions import *
 
-LABEL = "Icosahedron"
-OPERATOR = "mesh.create_icosahedron"
+
+def getLabel():
+    return "Icosahedron"
+
+
+def getOperator():
+    return "mesh.create_icosahedron"
 
 
 # create operator
 class MESH_OT_CreateIcosahedron(bpy.types.Operator):
-    bl_idname = OPERATOR
-    bl_label = LABEL
+    bl_idname = getOperator()
+    bl_label = getLabel()
 
     def execute(self, context):
-        (obj, mesh) = createNewEmptyObject(LABEL)
+        (obj, mesh) = createNewEmptyObject(getLabel())
 
         # create Bmesh
         bm = getNewBaseIcosahedron(2)
@@ -21,7 +26,7 @@ class MESH_OT_CreateIcosahedron(bpy.types.Operator):
         # set properties
         props = mesh.SphereTopology
         props.sphere_radius = 2
-        props.sphere_type = LABEL
+        props.sphere_type = getLabel()
         props.sphere_resolution = 1
         setSphereUpdated(props)
         props.sphere_do_update = True

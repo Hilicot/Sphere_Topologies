@@ -1,4 +1,3 @@
-
 import numpy as np
 from numpy.linalg import norm
 from .funcs.general_functions import *
@@ -6,17 +5,21 @@ from .Topologies.Icosahedron import getNewBaseIcosahedron, subdivide
 from .funcs.general_functions import getFlatAngle
 
 
-LABEL = "Truncated Icosahedron"
-OPERATOR = "mesh.create_truncated_icosahedron"
+def getLabel():
+    return "Truncated Icosahedron"
+
+
+def getOperator():
+    return "mesh.create_truncated_icosahedron"
 
 
 # create operator
 class MESH_OT_CreateTruncatedIcosahedron(bpy.types.Operator):
-    bl_idname = OPERATOR
-    bl_label = LABEL
+    bl_idname = getOperator()
+    bl_label = getLabel()
 
     def execute(self, context):
-        (obj, mesh) = createNewEmptyObject(LABEL)
+        (obj, mesh) = createNewEmptyObject(getLabel())
 
         # create Bmesh
         bm = getNewBaseIcosahedron(2)
@@ -27,7 +30,7 @@ class MESH_OT_CreateTruncatedIcosahedron(bpy.types.Operator):
         # set properties
         props = mesh.SphereTopology
         props.sphere_radius = 2
-        props.sphere_type = LABEL
+        props.sphere_type = getLabel()
         props.sphere_resolution = 1
         setSphereUpdated(props)
         props.sphere_do_update = True
