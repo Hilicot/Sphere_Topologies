@@ -143,6 +143,21 @@ For more detailed code, feel free to look at the python files, but remember what
             ])
          ```   
 
+### How to use it in Blender
+
+##### Installation
+Sadly, I still have some problems in transforming this script in a registerable addon in Blender.
+My attemps to do so are in the ```Addon Branch``` here on github, if you know what I missed feel free to take a look.
+Until then, to use it just place the files in this github in the same folder of your ```.blend``` file, in the text windows in Blender load ```main.py```
+and then run it. Since it is just a script, if you restart Blender you'll have to rerun the code as well to show again the addon panel/operators.
+
+##### Doing stuff with it
+
+To create a new sphere, just go in Add > Sphere Topologies and select the topology you want. If you have one of these sphere selected,
+ in the mesh panel you will see a panel called Sphere Topologies, from which you can modify and/or animate some of the settings of the topology. 
+ 
+Remember that if you modify the mesh in edit mode, you shouldn't change those settings anymore
+
 ### Sources
 Very good article on Delauney Triangulation and Voronoi regions [here](https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/)
 
