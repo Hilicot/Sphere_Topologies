@@ -128,7 +128,7 @@ class MESH_PT_sphere_topologies(bpy.types.Panel):
 
 class MESH_MT_sphere_topology_menu(bpy.types.Menu):
     bl_idname = "MESH_MT_sphere_topology_menu"
-    bl_label = "Extended Sphere Topologies"
+    bl_label = "Sphere Topologies"
 
     def draw(self, context):
         layout = self.layout
