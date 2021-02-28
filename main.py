@@ -29,13 +29,14 @@ modules = {
 previous_frame = -1
 
 
-def trigger_update_on_frame_change(scene):
+def trigger_update_on_frame_change(scene, depsgraph):
     global previous_frame
     if scene.frame_current != previous_frame:
         previous_frame = scene.frame_current
         for obj in scene.objects:
             if obj.type == 'MESH' and obj.data.SphereTopology.sphere_type != "null":
-                general_functions.sphereUpdateIfNeeded(obj.data)
+                mesh_eval = obj.data.evaluated_get(depsgraph)
+                general_functions.sphereUpdateIfNeeded(mesh_eval)
 
 
 # function triggered by manual update of Resolution properties
