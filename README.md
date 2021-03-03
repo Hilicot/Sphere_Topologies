@@ -158,6 +158,8 @@ To create a new sphere, just go in Add > Sphere Topologies and select the topolo
  
 Remember that if you modify the mesh in edit mode, you shouldn't change those settings anymore
 
+Also, in the current state the animations with keyframes doesn't work 
+
 ### Sources
 Very good article on Delauney Triangulation and Voronoi regions [here](https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/)
 
