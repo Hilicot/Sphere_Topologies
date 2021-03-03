@@ -74,6 +74,8 @@ def createRadialSphere(parallels, meridians, radius, transformRatio) -> bmesh:
 
 def placeAllVertices(bm, parallels, meridians, radius, transformRatio) -> None:
     """
+    Place the vertices to form a sphere, a plane, ora something in the middle, depending on <transformRatio>.
+    Also, it creates vertices only if missing, else it only moves them in the correct position
 
     :rtype: None
     :param bmesh bm:
