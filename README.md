@@ -1,6 +1,8 @@
 # Sphere Topologies
 Let's compare some topologies of spheres and see how they behave. This code is what I used to generate them
 
+![Code cover](https://github.com/Hilicot/Sphere_Topologies/blob/master/image.png?raw=true)
+
 ##### IMPORTANT DISCLAIMER
 This code was made for me only, to generate and animate different sphere meshes inside Blender 2.90 for visual representation. 
 This project is made to work as a Blender script that is able to create spheres and dynamically change their properties, 
@@ -158,7 +160,7 @@ To create a new sphere, just go in Add > Sphere Topologies and select the topolo
  
 Remember that if you modify the mesh in edit mode, you shouldn't change those settings anymore
 
-Also, in the current state the animations with keyframes doesn't work 
+Also, in the current state the animations with keyframes doesn't work6 direi 
 
 ### Sources
 Very good article on Delauney Triangulation and Voronoi regions [here](https://www.redblobgames.com/x/1842-delaunay-voronoi-sphere/)
